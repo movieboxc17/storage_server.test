@@ -20,30 +20,30 @@
 document.getElementById('data-form').addEventListener('submit', function(event) {
     event.preventDefault();
     
-    const data = document.getElementById('data').value;
-    const apiKey = 'f63327a5-2ad1-4a73-9d42-5f9fff565ea1';
-    
-    // Sending POST request to the server with the data and API key
-    fetch('https://your-storage-server.com/api/store', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${apiKey}`
-        },
-        body: JSON.stringify({ data: data })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            document.getElementById('feedback').innerText = 'Data stored successfully!';
+   const apiKey = '3dd0c70a-e650-4e89-ab37-64193c980a7b';
+const apiUrl = 'http://127.0.0.1:5000/store';
+
+async function storeData(data) {
+    try {
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`
+            },
+            body: JSON.stringify({ data })
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            console.log('Data stored successfully:', result);
         } else {
-            document.getElementById('feedback').innerText = 'Failed to store data.';
+            console.error('Error storing data:', response.statusText);
         }
-    })
-    .catch(error => {
-        document.getElementById('feedback').innerText = 'An error occurred.';
-        console.error('Error:', error);
-    });
+    } catch (error) {
+        console.error('Network error:', error);
+    }
+}
 });
 </script>
 
